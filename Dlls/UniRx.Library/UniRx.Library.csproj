@@ -486,9 +486,38 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\UnityEngineBridge\ReactiveProperty.cs">
       <Link>UnityEngineBridge\ReactiveProperty.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\InternalUtil\ListCompletableObserver.cs">
+      <Link>Completables\InternalUtils\ListCompletableObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\OperatorCompletableBase.cs">
+      <Link>Completables\Operators\OperatorCompletableBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\OperatorObserverBase.cs">
+      <Link>Completables\Operators\OperatorObserverBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\ThenCompletable.cs">
+      <Link>Completables\Operators\ThenCompletable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Subjects\ISubject.cs">
+      <Link>Completables\Subjects\ISubject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Subjects\Subject.cs">
+      <Link>Completables\Subjects\Subject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\System\Completable.cs">
+      <Link>Completables\System\Completable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\System\ICompletable.cs">
+      <Link>Completables\System\ICompletable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\System\ICompletableObserver.cs">
+      <Link>Completables\System\ICompletableObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\System\IOptimizedObservable.cs">
+      <Link>Completables\System\IOptimizedObservable.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
