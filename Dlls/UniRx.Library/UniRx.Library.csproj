@@ -48,6 +48,15 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Asynchronous\WebRequestExtensions.cs">
       <Link>Asynchronous\WebRequestExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\CompletableObserver.cs">
+      <Link>Completables/CompletableObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\OperatorCompletableObserverBase.cs">
+      <Link>Completables/Operators/OperatorCompletableObserverBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\SynchronizedCompletableObserver.cs">
+      <Link>Completables/Operators/SynchronizedCompletableObserver.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Disposables\BooleanDisposable.cs">
       <Link>Disposables\BooleanDisposable.cs</Link>
     </Compile>
@@ -491,9 +500,6 @@
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\OperatorCompletableBase.cs">
       <Link>Completables\Operators\OperatorCompletableBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\OperatorObserverBase.cs">
-      <Link>Completables\Operators\OperatorObserverBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\ThenCompletable.cs">
       <Link>Completables\Operators\ThenCompletable.cs</Link>

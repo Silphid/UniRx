@@ -61,9 +61,9 @@ namespace UniRx.Completables.InternalUtil
         }
     }
 
-    public class ThrowCompletableObserver<T> : ICompletableObserver
+    public class ThrowCompletableObserver : ICompletableObserver
     {
-        public static readonly ThrowCompletableObserver<T> Instance = new ThrowCompletableObserver<T>();
+        public static readonly ThrowCompletableObserver Instance = new ThrowCompletableObserver();
 
         private ThrowCompletableObserver()
         {
@@ -76,10 +76,6 @@ namespace UniRx.Completables.InternalUtil
         public void OnError(Exception error)
         {
             throw error;
-        }
-
-        public void OnNext(T value)
-        {
         }
     }
 

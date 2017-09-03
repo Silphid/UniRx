@@ -7,7 +7,7 @@ namespace UniRx.Completables.Operators
     public abstract class OperatorCompletableObserverBase : IDisposable, ICompletableObserver
     {
         protected internal volatile ICompletableObserver observer;
-        IDisposable cancel;
+        private IDisposable cancel;
 
         protected OperatorCompletableObserverBase(ICompletableObserver observer, IDisposable cancel)
         {
