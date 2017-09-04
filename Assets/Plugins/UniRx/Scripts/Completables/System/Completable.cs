@@ -6,42 +6,59 @@ namespace UniRx.Completables
 {
     public static class Completable
     {
-        #region Concat
+        #region Internal helpers
+
+        internal static IEnumerable<ICompletable> Combine(ICompletable first, IEnumerable<ICompletable> seconds)
+        {
+            yield return first;
+            
+            foreach (var second in seconds)
+                yield return second;
+        }
+
+        internal static IEnumerable<ICompletable> Combine(IEnumerable<ICompletable> firsts, IEnumerable<ICompletable> seconds)
+        {
+            foreach (var first in firsts)
+                yield return first;
+
+            foreach (var second in seconds)
+                yield return second;
+        }
+
+        #endregion
         
+        #region Concat
+
         public static ICompletable Concat(params ICompletable[] sources)
         {
             if (sources == null) throw new ArgumentNullException("sources");
 
-            return new ConcatObservable(sources);
+            return new ConcatCompletable(sources);
         }
 
         public static ICompletable Concat(this IEnumerable<ICompletable> sources)
         {
             if (sources == null) throw new ArgumentNullException("sources");
 
-            return new ConcatObservable(sources);
+            return new ConcatCompletable(sources);
         }
 
-// TODO: Implement Merge
-//        public static ICompletable Concat(this IObservable<ICompletable> sources)
-//        {
-//            return sources.Merge(maxConcurrent: 1);
-//        }
+        public static ICompletable Concat(this IObservable<ICompletable> sources)
+        {
+            return sources.Merge(maxConcurrent: 1);
+        }
 
-// TODO: Implement CombineSources
-//        public static ICompletable Concat(this ICompletable first, params ICompletable[] seconds)
-//        {
-//            if (first == null) throw new ArgumentNullException("first");
-//            if (seconds == null) throw new ArgumentNullException("seconds");
-//
-//            var concat = first as ConcatObservable;
-//            if (concat != null)
-//            {
-//                return concat.Combine(seconds);
-//            }
-//
-//            return Concat(CombineSources(first, seconds));
-//        }
+        public static ICompletable Concat(this ICompletable first, params ICompletable[] seconds)
+        {
+            if (first == null) throw new ArgumentNullException("first");
+            if (seconds == null) throw new ArgumentNullException("seconds");
+
+            var concat = first as ConcatCompletable;
+            if (concat != null)
+                return concat.Combine(seconds);
+
+            return Concat(Combine(first, seconds));
+        }
 
         #endregion
         
@@ -74,6 +91,55 @@ namespace UniRx.Completables
         
         #endregion
 
+        #region Merge
+
+        public static ICompletable Merge(this IEnumerable<ICompletable> sources)
+        {
+            return Merge(sources, Scheduler.DefaultSchedulers.ConstantTimeOperations);
+        }
+
+        public static ICompletable Merge(this IEnumerable<ICompletable> sources, IScheduler scheduler)
+        {
+            return new MergeCompletable(sources.ToObservable(scheduler), scheduler == Scheduler.CurrentThread);
+        }
+
+        public static ICompletable Merge(this IEnumerable<ICompletable> sources, IScheduler scheduler, int maxConcurrent)
+        {
+            return new MergeCompletable(sources.ToObservable(scheduler), maxConcurrent, scheduler == Scheduler.CurrentThread);
+        }
+
+        public static ICompletable Merge(params ICompletable[] sources)
+        {
+            return Merge(Scheduler.DefaultSchedulers.ConstantTimeOperations, sources);
+        }
+
+        public static ICompletable Merge(IScheduler scheduler, params ICompletable[] sources)
+        {
+            return new MergeCompletable(sources.ToObservable(scheduler), scheduler == Scheduler.CurrentThread);
+        }
+
+        public static ICompletable Merge(this ICompletable first, params ICompletable[] others)
+        {
+            return Merge(Combine(first, others));
+        }
+
+        public static ICompletable Merge(this ICompletable first, ICompletable second, IScheduler scheduler)
+        {
+            return Merge(scheduler, first, second);
+        }
+
+        public static ICompletable Merge(this IObservable<ICompletable> sources)
+        {
+            return new MergeCompletable(sources, false);
+        }
+
+        public static ICompletable Merge(this IObservable<ICompletable> sources, int maxConcurrent)
+        {
+            return new MergeCompletable(sources, maxConcurrent, false);
+        }
+
+        #endregion
+        
         #region Then
 
         public static ICompletable Then(this ICompletable source, ICompletable other)

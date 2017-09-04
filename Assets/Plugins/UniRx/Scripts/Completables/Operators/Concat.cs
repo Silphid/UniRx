@@ -3,41 +3,29 @@ using System.Collections.Generic;
 
 namespace UniRx.Completables.Operators
 {
-    internal class ConcatObservable : OperatorCompletableBase
+    internal class ConcatCompletable : OperatorCompletableBase
     {
         private readonly IEnumerable<ICompletable> sources;
 
-        public ConcatObservable(IEnumerable<ICompletable> sources)
+        public ConcatCompletable(IEnumerable<ICompletable> sources)
             : base(true)
         {
             this.sources = sources;
         }
 
-        public ICompletable Combine(IEnumerable<ICompletable> combineSources)
+        public ICompletable Combine(IEnumerable<ICompletable> sources)
         {
-            return new ConcatObservable(CombineSources(sources, combineSources));
-        }
-
-        private static IEnumerable<ICompletable> CombineSources(IEnumerable<ICompletable> first, IEnumerable<ICompletable> second)
-        {
-            foreach (var item in first)
-            {
-                yield return item;
-            }
-            foreach (var item in second)
-            {
-                yield return item;
-            }
+            return new ConcatCompletable(Completable.Combine(this.sources, sources));
         }
 
         protected override IDisposable SubscribeCore(ICompletableObserver observer, IDisposable cancel)
         {
-            return new Concat(this, observer, cancel).Run();
+            return new ConcatObserver(this, observer, cancel).Run();
         }
 
-        private class Concat : OperatorCompletableObserverBase
+        private class ConcatObserver : OperatorCompletableObserverBase
         {
-            private readonly ConcatObservable parent;
+            private readonly ConcatCompletable parent;
             private readonly object gate = new object();
 
             private bool isDisposed;
@@ -45,7 +33,7 @@ namespace UniRx.Completables.Operators
             private SerialDisposable subscription;
             private Action nextSelf;
 
-            public Concat(ConcatObservable parent, ICompletableObserver observer, IDisposable cancel)
+            public ConcatObserver(ConcatCompletable parent, ICompletableObserver observer, IDisposable cancel)
                 : base(observer, cancel)
             {
                 this.parent = parent;
@@ -60,13 +48,13 @@ namespace UniRx.Completables.Operators
                 var schedule = Scheduler.DefaultSchedulers.TailRecursion.Schedule(RecursiveRun);
 
                 return StableCompositeDisposable.Create(schedule, subscription, Disposable.Create(() =>
-               {
-                   lock (gate)
-                   {
-                       isDisposed = true;
-                       e.Dispose();
-                   }
-               }));
+                {
+                    lock (gate)
+                    {
+                        isDisposed = true;
+                        e.Dispose();
+                    }
+                }));
             }
 
             private void RecursiveRun(Action self)
