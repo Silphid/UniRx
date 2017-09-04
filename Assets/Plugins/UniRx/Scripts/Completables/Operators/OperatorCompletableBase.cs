@@ -2,10 +2,9 @@
 
 namespace UniRx.Completables.Operators
 {
-    // implements note : all field must be readonly.
     public abstract class OperatorCompletableBase : ICompletable
     {
-        readonly bool isRequiredSubscribeOnCurrentThread;
+        private readonly bool isRequiredSubscribeOnCurrentThread;
 
         protected OperatorCompletableBase(bool isRequiredSubscribeOnCurrentThread)
         {

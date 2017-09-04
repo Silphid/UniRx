@@ -118,9 +118,6 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\OperatorCompletableObserverBase.cs">
       <Link>Completables/Operators/OperatorCompletableObserverBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\RefCount.cs">
-      <Link>Completables/Operators/RefCount.cs</Link>
-    </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Repeat.cs">
       <Link>Completables/Operators/Repeat.cs</Link>
     </Compile>

@@ -1,32 +1,19 @@
-﻿//using System;
-//
-//namespace UniRx.Operators
-//{
-//    internal class NeverObservable<T> : OperatorObservableBase<T>
-//    {
-//        public NeverObservable()
-//            : base(false)
-//        {
-//        }
-//
-//        protected override IDisposable SubscribeCore(IObserver<T> observer, IDisposable cancel)
-//        {
-//            return Disposable.Empty;
-//        }
-//    }
-//
-//    internal class ImmutableNeverObservable<T> : IObservable<T>, IOptimizedObservable<T>
-//    {
-//        internal static ImmutableNeverObservable<T> Instance = new ImmutableNeverObservable<T>();
-//
-//        public bool IsRequiredSubscribeOnCurrentThread()
-//        {
-//            return false;
-//        }
-//
-//        public IDisposable Subscribe(IObserver<T> observer)
-//        {
-//            return Disposable.Empty;
-//        }
-//    }
-//}
+﻿using System;
+
+namespace UniRx.Completables.Operators
+{
+    internal class ImmutableNeverCompletable : IOptimizedCompletable
+    {
+        internal static ImmutableNeverCompletable Instance = new ImmutableNeverCompletable();
+
+        public bool IsRequiredSubscribeOnCurrentThread()
+        {
+            return false;
+        }
+
+        public IDisposable Subscribe(ICompletableObserver observer)
+        {
+            return Disposable.Empty;
+        }
+    }
+}

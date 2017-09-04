@@ -4,166 +4,12 @@ namespace UniRx.Completables.Operators
 {
     // DoOnError, DoOnCompleted, DoOnTerminate, DoOnSubscribe, DoOnCancel
 
-    internal class DoCompletable : OperatorCompletableBase
-    {
-        private readonly ICompletable source;
-        private readonly Action onCompleted;
-        private readonly Action<Exception> onError;
-
-        public DoCompletable(ICompletable source, Action onCompleted, Action<Exception> onError)
-            : base(source.IsRequiredSubscribeOnCurrentThread())
-        {
-            this.source = source;
-            this.onCompleted = onCompleted;
-            this.onError = onError;
-        }
-
-        protected override IDisposable SubscribeCore(ICompletableObserver observer, IDisposable cancel)
-        {
-            return new Do(this, observer, cancel).Run();
-        }
-
-        private class Do : OperatorCompletableObserverBase
-        {
-            private readonly DoCompletable parent;
-
-            public Do(DoCompletable parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
-            {
-                this.parent = parent;
-            }
-
-            public IDisposable Run()
-            {
-                return parent.source.Subscribe(this);
-            }
-
-            public override void OnCompleted()
-            {
-                try
-                {
-                    parent.onCompleted();
-                }
-                catch (Exception ex)
-                {
-                    observer.OnError(ex);
-                    Dispose();
-                    return;
-                }
-                
-                try
-                {
-                    observer.OnCompleted();
-                }
-                finally
-                {
-                    Dispose();
-                }
-            }
-
-            public override void OnError(Exception error)
-            {
-                try
-                {
-                    parent.onError(error);
-                }
-                catch (Exception ex)
-                {
-                    try
-                    {
-                        observer.OnError(ex);
-                    }
-                    finally
-                    {
-                        Dispose();
-                    }
-                    return;
-                }
-
-                try
-                {
-                    observer.OnError(error);
-                }
-                finally
-                {
-                    Dispose();
-                }
-            }
-        }
-    }
-
-    internal class DoObserverCompletable : OperatorCompletableBase
-    {
-        private readonly ICompletable source;
-        private readonly ICompletableObserver observer;
-
-        public DoObserverCompletable(ICompletable source, ICompletableObserver observer)
-            : base(source.IsRequiredSubscribeOnCurrentThread())
-        {
-            this.source = source;
-            this.observer = observer;
-        }
-
-        protected override IDisposable SubscribeCore(ICompletableObserver observer1, IDisposable cancel)
-        {
-            return new Do(this, observer1, cancel).Run();
-        }
-
-        private class Do : OperatorCompletableObserverBase
-        {
-            private readonly DoObserverCompletable parent;
-
-            public Do(DoObserverCompletable parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
-            {
-                this.parent = parent;
-            }
-
-            public IDisposable Run()
-            {
-                return parent.source.Subscribe(this);
-            }
-
-            public override void OnCompleted()
-            {
-                try
-                {
-                    parent.observer.OnCompleted();
-                }
-                catch (Exception ex)
-                {
-                    try { observer.OnError(ex); }
-                    finally { Dispose(); }
-                    return;
-                }
-
-                try { observer.OnCompleted(); }
-                finally { Dispose(); }
-            }
-
-            public override void OnError(Exception error)
-            {
-                try
-                {
-                    parent.observer.OnError(error);
-                }
-                catch (Exception ex)
-                {
-                    try { observer.OnError(ex); }
-                    finally { Dispose(); }
-                    return;
-                }
-
-                try { observer.OnError(error); }
-                finally { Dispose(); }
-            }
-        }
-    }
-
-    internal class DoOnErrorObservable<T> : OperatorCompletableBase
+    internal class DoOnErrorCompletable<T> : OperatorCompletableBase
     {
         private readonly ICompletable source;
         private readonly Action<Exception> onError;
 
-        public DoOnErrorObservable(ICompletable source, Action<Exception> onError)
+        public DoOnErrorCompletable(ICompletable source, Action<Exception> onError)
             : base(source.IsRequiredSubscribeOnCurrentThread())
         {
             this.source = source;
@@ -172,14 +18,14 @@ namespace UniRx.Completables.Operators
 
         protected override IDisposable SubscribeCore(ICompletableObserver observer, IDisposable cancel)
         {
-            return new DoOnError(this, observer, cancel).Run();
+            return new DoOnErrorObserver(this, observer, cancel).Run();
         }
 
-        private class DoOnError : OperatorCompletableObserverBase
+        private class DoOnErrorObserver : OperatorCompletableObserverBase
         {
-            readonly DoOnErrorObservable<T> parent;
+            private readonly DoOnErrorCompletable<T> parent;
 
-            public DoOnError(DoOnErrorObservable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
+            public DoOnErrorObserver(DoOnErrorCompletable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
             {
                 this.parent = parent;
             }
@@ -215,12 +61,12 @@ namespace UniRx.Completables.Operators
         }
     }
 
-    internal class DoOnCompletedObservable<T> : OperatorCompletableBase
+    internal class DoOnCompletedCompletable<T> : OperatorCompletableBase
     {
         private readonly ICompletable source;
         public readonly Action onCompleted;
 
-        public DoOnCompletedObservable(ICompletable source, Action onCompleted)
+        public DoOnCompletedCompletable(ICompletable source, Action onCompleted)
             : base(source.IsRequiredSubscribeOnCurrentThread())
         {
             this.source = source;
@@ -234,9 +80,9 @@ namespace UniRx.Completables.Operators
 
         private class DoOnCompleted : OperatorCompletableObserverBase
         {
-            private readonly DoOnCompletedObservable<T> parent;
+            private readonly DoOnCompletedCompletable<T> parent;
 
-            public DoOnCompleted(DoOnCompletedObservable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
+            public DoOnCompleted(DoOnCompletedCompletable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
             {
                 this.parent = parent;
             }
@@ -269,12 +115,12 @@ namespace UniRx.Completables.Operators
         }
     }
 
-    internal class DoOnTerminateObservable<T> : OperatorCompletableBase
+    internal class DoOnTerminateCompletable<T> : OperatorCompletableBase
     {
         private readonly ICompletable source;
         public readonly Action onTerminate;
 
-        public DoOnTerminateObservable(ICompletable source, Action onTerminate)
+        public DoOnTerminateCompletable(ICompletable source, Action onTerminate)
             : base(source.IsRequiredSubscribeOnCurrentThread())
         {
             this.source = source;
@@ -288,9 +134,9 @@ namespace UniRx.Completables.Operators
 
         class DoOnTerminate : OperatorCompletableObserverBase
         {
-            private readonly DoOnTerminateObservable<T> parent;
+            private readonly DoOnTerminateCompletable<T> parent;
 
-            public DoOnTerminate(DoOnTerminateObservable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
+            public DoOnTerminate(DoOnTerminateCompletable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
             {
                 this.parent = parent;
             }
@@ -332,12 +178,12 @@ namespace UniRx.Completables.Operators
         }
     }
 
-    internal class DoOnSubscribeObservable<T> : OperatorCompletableBase
+    internal class DoOnSubscribeCompletable<T> : OperatorCompletableBase
     {
         private readonly ICompletable source;
         private readonly Action onSubscribe;
 
-        public DoOnSubscribeObservable(ICompletable source, Action onSubscribe)
+        public DoOnSubscribeCompletable(ICompletable source, Action onSubscribe)
             : base(source.IsRequiredSubscribeOnCurrentThread())
         {
             this.source = source;
@@ -351,9 +197,9 @@ namespace UniRx.Completables.Operators
 
         private class DoOnSubscribe : OperatorCompletableObserverBase
         {
-            private readonly DoOnSubscribeObservable<T> parent;
+            private readonly DoOnSubscribeCompletable<T> parent;
 
-            public DoOnSubscribe(DoOnSubscribeObservable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
+            public DoOnSubscribe(DoOnSubscribeCompletable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
             {
                 this.parent = parent;
             }
@@ -386,12 +232,12 @@ namespace UniRx.Completables.Operators
         }
     }
 
-    internal class DoOnCancelObservable<T> : OperatorCompletableBase
+    internal class DoOnCancelCompletable<T> : OperatorCompletableBase
     {
         private readonly ICompletable source;
         public readonly Action onCancel;
 
-        public DoOnCancelObservable(ICompletable source, Action onCancel)
+        public DoOnCancelCompletable(ICompletable source, Action onCancel)
             : base(source.IsRequiredSubscribeOnCurrentThread())
         {
             this.source = source;
@@ -405,10 +251,10 @@ namespace UniRx.Completables.Operators
 
         private class DoOnCancel : OperatorCompletableObserverBase
         {
-            private readonly DoOnCancelObservable<T> parent;
+            private readonly DoOnCancelCompletable<T> parent;
             private bool isCompletedCall;
 
-            public DoOnCancel(DoOnCancelObservable<T> parent, ICompletableObserver observer, IDisposable cancel)
+            public DoOnCancel(DoOnCancelCompletable<T> parent, ICompletableObserver observer, IDisposable cancel)
                 : base(observer, cancel)
             {
                 this.parent = parent;

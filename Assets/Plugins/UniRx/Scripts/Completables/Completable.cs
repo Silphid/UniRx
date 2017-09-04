@@ -163,6 +163,14 @@ namespace UniRx.Completables
 
             return first.AsObservable<T>().Concat(second);
         }
+        
+        public static ICompletable Then<T>(this IObservable<T> first, params ICompletable[] seconds)
+        {
+            if (first == null) throw new ArgumentNullException("first");
+            if (seconds == null) throw new ArgumentNullException("seconds");
+
+            return Concat(Combine(first.AsCompletable(), seconds));
+        }
 
         #endregion
 
@@ -190,6 +198,14 @@ namespace UniRx.Completables
                 ? (ICompletable) ImmutableEmptyCompletable.Instance
                 : new EmptyCompletable(scheduler);
         }
+
+        /// <summary>
+        /// Never-terminating Completable.
+        /// </summary>
+        public static ICompletable Never()
+        {
+            return ImmutableNeverCompletable.Instance;
+        }
         
         /// <summary>
         /// Empty Completable. Returns only onError.
@@ -213,27 +229,27 @@ namespace UniRx.Completables
 
         public static ICompletable DoOnError<T>(this ICompletable source, Action<Exception> onError)
         {
-            return new DoOnErrorObservable<T>(source, onError);
+            return new DoOnErrorCompletable<T>(source, onError);
         }
 
         public static ICompletable DoOnCompleted<T>(this ICompletable source, Action onCompleted)
         {
-            return new DoOnCompletedObservable<T>(source, onCompleted);
+            return new DoOnCompletedCompletable<T>(source, onCompleted);
         }
 
         public static ICompletable DoOnTerminate<T>(this ICompletable source, Action onTerminate)
         {
-            return new DoOnTerminateObservable<T>(source, onTerminate);
+            return new DoOnTerminateCompletable<T>(source, onTerminate);
         }
 
         public static ICompletable DoOnSubscribe<T>(this ICompletable source, Action onSubscribe)
         {
-            return new DoOnSubscribeObservable<T>(source, onSubscribe);
+            return new DoOnSubscribeCompletable<T>(source, onSubscribe);
         }
 
         public static ICompletable DoOnCancel<T>(this ICompletable source, Action onCancel)
         {
-            return new DoOnCancelObservable<T>(source, onCancel);
+            return new DoOnCancelCompletable<T>(source, onCancel);
         }
         
         #endregion
