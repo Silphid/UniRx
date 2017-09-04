@@ -49,20 +49,23 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Asynchronous\WebRequestExtensions.cs">
       <Link>Asynchronous\WebRequestExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Completable.cs">
+      <Link>Completables/Completable.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\CompletableObserver.cs">
       <Link>Completables/CompletableObserver.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Amb.cs">
       <Link>Completables/Operators/Amb.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\AsCompletable.cs">
+      <Link>Completables/Operators/AsCompletable.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\AsObservable.cs">
       <Link>Completables/Operators/AsObservable.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\AsSingleUnitObservable.cs">
       <Link>Completables/Operators/AsSingleUnitObservable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\AsUnitObservable.cs">
-      <Link>Completables/Operators/AsUnitObservable.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Catch.cs">
       <Link>Completables/Operators/Catch.cs</Link>
@@ -136,9 +139,6 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\TakeUntil.cs">
       <Link>Completables/Operators/TakeUntil.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\ThenCompletable.cs">
-      <Link>Completables/Operators/ThenCompletable.cs</Link>
-    </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Throw.cs">
       <Link>Completables/Operators/Throw.cs</Link>
     </Compile>
@@ -147,9 +147,6 @@
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Timer.cs">
       <Link>Completables/Operators/Timer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\ToObservable.cs">
-      <Link>Completables/Operators/ToObservable.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Wait.cs">
       <Link>Completables/Operators/Wait.cs</Link>
@@ -603,9 +600,6 @@
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Subjects\Subject.cs">
       <Link>Completables\Subjects\Subject.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\System\Completable.cs">
-      <Link>Completables\System\Completable.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\System\ICompletable.cs">
       <Link>Completables\System\ICompletable.cs</Link>

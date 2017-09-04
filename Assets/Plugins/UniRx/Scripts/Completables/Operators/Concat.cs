@@ -13,9 +13,14 @@ namespace UniRx.Completables.Operators
             this.sources = sources;
         }
 
-        public ICompletable Combine(IEnumerable<ICompletable> sources)
+        public ICompletable Combine(IEnumerable<ICompletable> seconds)
         {
-            return new ConcatCompletable(Completable.Combine(this.sources, sources));
+            return new ConcatCompletable(Completable.Combine(sources, seconds));
+        }
+
+        public ICompletable Combine(ICompletable second)
+        {
+            return new ConcatCompletable(Completable.Combine(sources, second));
         }
 
         protected override IDisposable SubscribeCore(ICompletableObserver observer, IDisposable cancel)
