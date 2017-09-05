@@ -176,6 +176,46 @@ namespace UniRx.Completables
 
         #region Creation (Defer, Empty, Throw)
 
+        /// <summary>
+        /// Create anonymous completable. Observer has exception durability. This is recommended to make operator and event like generator. 
+        /// </summary>
+        public static ICompletable Create(Func<ICompletableObserver, IDisposable> subscribe)
+        {
+            if (subscribe == null) throw new ArgumentNullException("subscribe");
+
+            return new CreateCompletable(subscribe);
+        }
+
+        /// <summary>
+        /// Create anonymous completable. Observer has exception durability. This is recommended to make operator and event like generator (Hot Completable). 
+        /// </summary>
+        public static ICompletable Create(Func<ICompletableObserver, IDisposable> subscribe, bool isRequiredSubscribeOnCurrentThread)
+        {
+            if (subscribe == null) throw new ArgumentNullException("subscribe");
+
+            return new CreateCompletable(subscribe, isRequiredSubscribeOnCurrentThread);
+        }
+
+        /// <summary>
+        /// Create anonymous completable. Observer has exception durability. This is recommended to make operator and event like generator. 
+        /// </summary>
+        public static ICompletable CreateWithState<TState>(TState state, Func<TState, ICompletableObserver, IDisposable> subscribe)
+        {
+            if (subscribe == null) throw new ArgumentNullException("subscribe");
+
+            return new CreateCompletable<TState>(state, subscribe);
+        }
+
+        /// <summary>
+        /// Create anonymous completable. Observer has exception durability. This is recommended to make operator and event like generator (Hot Completable). 
+        /// </summary>
+        public static ICompletable CreateWithState<TState>(TState state, Func<TState, ICompletableObserver, IDisposable> subscribe, bool isRequiredSubscribeOnCurrentThread)
+        {
+            if (subscribe == null) throw new ArgumentNullException("subscribe");
+
+            return new CreateCompletable<TState>(state, subscribe, isRequiredSubscribeOnCurrentThread);
+        }
+
         public static ICompletable Defer(Func<ICompletable> observableFactory)
         {
             return new DeferCompletable(observableFactory);
