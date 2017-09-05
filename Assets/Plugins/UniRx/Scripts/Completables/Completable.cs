@@ -253,5 +253,40 @@ namespace UniRx.Completables
         }
         
         #endregion
+
+        #region Error Handling (Catch, CatchIgnore)
+
+        /// <summary>Catches given exception and returns Completable provided by errorHandler Func.</summary>
+        public static ICompletable Catch<TException>(this ICompletable source, Func<TException, ICompletable> errorHandler)
+            where TException : Exception
+        {
+            return new CatchCompletable<TException>(source, errorHandler);
+        }
+
+        /// <summary>Tries multiples Completable sources in order, catching any exception and falling back to next source.</summary>
+        public static ICompletable Catch(this IEnumerable<ICompletable> sources)
+        {
+            return new CatchCompletable(sources);
+        }
+
+        /// <summary>Catches given exception and returns Observable.Empty.</summary>
+        public static IObservable<TSource> CatchIgnore<TSource, TException>(this IObservable<TSource> source, Action<TException> errorAction)
+            where TException : Exception
+        {
+            var result = source.Catch((TException ex) =>
+            {
+                errorAction(ex);
+                return Observable.Empty<TSource>();
+            });
+            return result;
+        }
+
+        /// <summary>Catches any exception and returns Observable.Empty.</summary>
+        public static IObservable<TSource> CatchIgnore<TSource>(this IObservable<TSource> source)
+        {
+            return source.Catch<TSource, Exception>(Stubs.CatchIgnore<TSource>);
+        }
+
+        #endregion
     }
 }
