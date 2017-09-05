@@ -65,7 +65,7 @@ namespace UniRx.Completables
 
         #endregion
 
-        #region Combination (Concat, Merge, Then)
+        #region Combination (Concat, Merge, Then, WhenAll)
 
         public static ICompletable Concat(params ICompletable[] sources)
         {
@@ -170,6 +170,29 @@ namespace UniRx.Completables
             if (seconds == null) throw new ArgumentNullException("seconds");
 
             return Concat(Combine(first.AsCompletable(), seconds));
+        }
+        
+        /// <summary>
+        /// <para>Specialized for single async operations like Task.WhenAll, Zip.Take(1).</para>
+        /// <para>If sequence is empty, return T[0] array.</para>
+        /// </summary>
+        public static ICompletable WhenAll(params ICompletable[] sources)
+        {
+            return sources.Length != 0
+                ? new WhenAllCompletable(sources)
+                : Empty();
+        }
+
+        /// <summary>
+        /// <para>Specialized for single async operations like Task.WhenAll, Zip.Take(1).</para>
+        /// <para>If sequence is empty, return T[0] array.</para>
+        /// </summary>
+        public static ICompletable WhenAll(this IEnumerable<ICompletable> sources)
+        {
+            var array = sources as ICompletable[];
+            return array != null
+                ? WhenAll(array)
+                : new WhenAllCompletable(sources);
         }
 
         #endregion
