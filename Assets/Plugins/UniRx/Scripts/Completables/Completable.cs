@@ -351,5 +351,29 @@ namespace UniRx.Completables
         }
 
         #endregion
+
+        #region Timer
+
+        public static ICompletable Timer(TimeSpan dueTime)
+        {
+            return new TimerCompletable(dueTime, Scheduler.DefaultSchedulers.TimeBasedOperations);
+        }
+
+        public static ICompletable Timer(DateTimeOffset dueTime)
+        {
+            return new TimerCompletable(dueTime, Scheduler.DefaultSchedulers.TimeBasedOperations);
+        }
+
+        public static ICompletable Timer(TimeSpan dueTime, IScheduler scheduler)
+        {
+            return new TimerCompletable(dueTime, scheduler);
+        }
+
+        public static ICompletable Timer(DateTimeOffset dueTime, IScheduler scheduler)
+        {
+            return new TimerCompletable(dueTime, scheduler);
+        }
+
+        #endregion
     }
 }

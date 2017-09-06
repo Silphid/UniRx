@@ -85,9 +85,6 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\DelaySubscription.cs">
       <Link>Completables/Operators/DelaySubscription.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Dematerialize.cs">
-      <Link>Completables/Operators/Dematerialize.cs</Link>
-    </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Do.cs">
       <Link>Completables/Operators/Do.cs</Link>
     </Compile>
@@ -99,9 +96,6 @@
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\FromEvent.cs">
       <Link>Completables/Operators/FromEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Materialize.cs">
-      <Link>Completables/Operators/Materialize.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Merge.cs">
       <Link>Completables/Operators/Merge.cs</Link>
