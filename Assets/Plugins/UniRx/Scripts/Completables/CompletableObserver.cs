@@ -311,6 +311,9 @@ namespace UniRx.Completables
 
         internal static class Stubs
         {
+            public static readonly Action Nop = () => { };
+            public static readonly Action<Exception> Throw = ex => { throw ex; };
+            
             // Marker for CatchIgnore and Catch to avoid iOS AOT problem.
             public static ICompletable CatchIgnore(Exception ex)
             {
