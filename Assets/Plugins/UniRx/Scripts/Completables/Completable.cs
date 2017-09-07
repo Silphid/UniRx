@@ -352,7 +352,7 @@ namespace UniRx.Completables
 
         #endregion
 
-        #region Time (Timer, ThenTimer, Timeout)
+        #region Time (Timer, ThenTimer, Timeout, Wait)
 
         public static ICompletable Timer(TimeSpan dueTime, IScheduler scheduler = null)
         {
@@ -386,6 +386,11 @@ namespace UniRx.Completables
         public static ICompletable Timeout(this ICompletable This, DateTimeOffset dueTime, IScheduler scheduler = null)
         {
             return new TimeoutCompletable(This, dueTime, scheduler ?? Scheduler.DefaultSchedulers.TimeBasedOperations);
+        }
+
+        public static void Wait(this ICompletable This, TimeSpan? timeoutDuration = null)
+        {
+            new WaitCompletableObserver(This, timeoutDuration).Run();
         }
 
         #endregion

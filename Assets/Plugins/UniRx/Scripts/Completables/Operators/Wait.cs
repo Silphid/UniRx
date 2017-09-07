@@ -1,62 +1,47 @@
-﻿//using System;
-//
-//namespace UniRx.Operators
-//{
-//    internal class Wait<T> : IObserver<T>
-//    {
-//        static readonly TimeSpan InfiniteTimeSpan = new TimeSpan(0, 0, 0, 0, -1); // from .NET 4.5
-//
-//        readonly IObservable<T> source;
-//        readonly TimeSpan timeout;
-//
-//        System.Threading.ManualResetEvent semaphore;
-//
-//        bool seenValue = false;
-//        T value = default(T);
-//        Exception ex = default(Exception);
-//
-//        public Wait(IObservable<T> source, TimeSpan timeout)
-//        {
-//            this.source = source;
-//            this.timeout = timeout;
-//        }
-//
-//        public T Run()
-//        {
-//            semaphore = new System.Threading.ManualResetEvent(false);
-//            using (source.Subscribe(this))
-//            {
-//                var waitComplete = (timeout == InfiniteTimeSpan)
-//                    ? semaphore.WaitOne()
-//                    : semaphore.WaitOne(timeout);
-//
-//                if (!waitComplete)
-//                {
-//                    throw new TimeoutException("OnCompleted not fired.");
-//                }
-//            }
-//
-//            if (ex != null) throw ex;
-//            if (!seenValue) throw new InvalidOperationException("No Elements.");
-//
-//            return value;
-//        }
-//
-//        public void OnNext(T value)
-//        {
-//            seenValue = true;
-//            this.value = value;
-//        }
-//
-//        public void OnError(Exception error)
-//        {
-//            this.ex = error;
-//            semaphore.Set();
-//        }
-//
-//        public void OnCompleted()
-//        {
-//            semaphore.Set();
-//        }
-//    }
-//}
+﻿using System;
+using System.Threading;
+
+namespace UniRx.Completables.Operators
+{
+    internal class WaitCompletableObserver : ICompletableObserver
+    {
+        private readonly ICompletable source;
+        private readonly TimeSpan? timeoutDuration;
+        private ManualResetEvent semaphore;
+        private Exception exception;
+
+        public WaitCompletableObserver(ICompletable source, TimeSpan? timeoutDuration)
+        {
+            this.source = source;
+            this.timeoutDuration = timeoutDuration;
+        }
+
+        public void Run()
+        {
+            semaphore = new ManualResetEvent(false);
+            using (source.Subscribe(this))
+            {
+                var isTimedOut = timeoutDuration.HasValue
+                    ? !semaphore.WaitOne(timeoutDuration.Value)
+                    : !semaphore.WaitOne();
+
+                if (isTimedOut)
+                    throw new TimeoutException("OnCompleted not fired.");
+            }
+
+            if (exception != null)
+                throw exception;
+        }
+
+        public void OnError(Exception error)
+        {
+            exception = error;
+            semaphore.Set();
+        }
+
+        public void OnCompleted()
+        {
+            semaphore.Set();
+        }
+    }
+}

@@ -79,12 +79,6 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Defer.cs">
       <Link>Completables/Operators/Defer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Delay.cs">
-      <Link>Completables/Operators/Delay.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\DelaySubscription.cs">
-      <Link>Completables/Operators/DelaySubscription.cs</Link>
-    </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Do.cs">
       <Link>Completables/Operators/Do.cs</Link>
     </Compile>
