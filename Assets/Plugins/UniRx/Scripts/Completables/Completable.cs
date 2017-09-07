@@ -354,24 +354,28 @@ namespace UniRx.Completables
 
         #region Timer
 
-        public static ICompletable Timer(TimeSpan dueTime)
+        public static ICompletable Timer(TimeSpan dueTime, IScheduler scheduler = null)
         {
-            return new TimerCompletable(dueTime, Scheduler.DefaultSchedulers.TimeBasedOperations);
+            return new TimerCompletable(dueTime, scheduler ?? Scheduler.DefaultSchedulers.TimeBasedOperations);
         }
 
-        public static ICompletable Timer(DateTimeOffset dueTime)
+        public static ICompletable Timer(DateTimeOffset dueTime, IScheduler scheduler = null)
         {
-            return new TimerCompletable(dueTime, Scheduler.DefaultSchedulers.TimeBasedOperations);
+            return new TimerCompletable(dueTime, scheduler ?? Scheduler.DefaultSchedulers.TimeBasedOperations);
         }
-
-        public static ICompletable Timer(TimeSpan dueTime, IScheduler scheduler)
+        
+        public static ICompletable ThenTimer(this ICompletable first, TimeSpan dueTime, IScheduler scheduler = null)
         {
-            return new TimerCompletable(dueTime, scheduler);
+            if (first == null) throw new ArgumentNullException("first");
+
+            return first.Then(Timer(dueTime, scheduler));
         }
-
-        public static ICompletable Timer(DateTimeOffset dueTime, IScheduler scheduler)
+        
+        public static ICompletable ThenTimer(this ICompletable first, DateTimeOffset dueTime, IScheduler scheduler = null)
         {
-            return new TimerCompletable(dueTime, scheduler);
+            if (first == null) throw new ArgumentNullException("first");
+
+            return first.Then(Timer(dueTime, scheduler));
         }
 
         #endregion
