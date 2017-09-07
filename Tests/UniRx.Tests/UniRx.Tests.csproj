@@ -78,6 +78,7 @@
     <Compile Include="Completables\ConcatTest.cs" />
     <Compile Include="Completables\Helpers\StubCompletableObserver.cs" />
     <Compile Include="Completables\ThenTest.cs" />
+    <Compile Include="Completables\TimeoutTest.cs" />
     <Compile Include="Completables\TimerTest.cs" />
     <Compile Include="MicroCoroutineTest.cs" />
     <Compile Include="ReactivePropertyTest.cs" />

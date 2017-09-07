@@ -352,7 +352,7 @@ namespace UniRx.Completables
 
         #endregion
 
-        #region Timer
+        #region Time (Timer, ThenTimer, Timeout)
 
         public static ICompletable Timer(TimeSpan dueTime, IScheduler scheduler = null)
         {
@@ -364,18 +364,28 @@ namespace UniRx.Completables
             return new TimerCompletable(dueTime, scheduler ?? Scheduler.DefaultSchedulers.TimeBasedOperations);
         }
         
-        public static ICompletable ThenTimer(this ICompletable first, TimeSpan dueTime, IScheduler scheduler = null)
+        public static ICompletable ThenTimer(this ICompletable This, TimeSpan dueTime, IScheduler scheduler = null)
         {
-            if (first == null) throw new ArgumentNullException("first");
+            if (This == null) throw new ArgumentNullException("This");
 
-            return first.Then(Timer(dueTime, scheduler));
+            return This.Then(Timer(dueTime, scheduler));
         }
         
-        public static ICompletable ThenTimer(this ICompletable first, DateTimeOffset dueTime, IScheduler scheduler = null)
+        public static ICompletable ThenTimer(this ICompletable This, DateTimeOffset dueTime, IScheduler scheduler = null)
         {
-            if (first == null) throw new ArgumentNullException("first");
+            if (This == null) throw new ArgumentNullException("This");
 
-            return first.Then(Timer(dueTime, scheduler));
+            return This.Then(Timer(dueTime, scheduler));
+        }
+
+        public static ICompletable Timeout(this ICompletable This, TimeSpan dueTime, IScheduler scheduler = null)
+        {
+            return new TimeoutCompletable(This, dueTime, scheduler ?? Scheduler.DefaultSchedulers.TimeBasedOperations);
+        }
+
+        public static ICompletable Timeout(this ICompletable This, DateTimeOffset dueTime, IScheduler scheduler = null)
+        {
+            return new TimeoutCompletable(This, dueTime, scheduler ?? Scheduler.DefaultSchedulers.TimeBasedOperations);
         }
 
         #endregion

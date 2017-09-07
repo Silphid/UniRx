@@ -6,7 +6,6 @@ namespace UniRx.Completables.Tests
     {
         public bool IsCompleted { get; private set; }
         public Exception Error { get; private set; }
-        public bool HasError => Error != null;
 
         public void OnCompleted()
         {
@@ -18,7 +17,7 @@ namespace UniRx.Completables.Tests
 
         public void OnError(Exception error)
         {
-            if (HasError)
+            if (Error != null)
                 throw new InvalidOperationException("CompletableObserver.OnError() called more than once.");
                 
             Error = error;
