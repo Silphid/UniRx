@@ -76,7 +76,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Completables\ConcatTest.cs" />
+    <Compile Include="Completables\Helpers\StubCompletableObserver.cs" />
     <Compile Include="Completables\ThenTest.cs" />
+    <Compile Include="Completables\TimerTest.cs" />
     <Compile Include="MicroCoroutineTest.cs" />
     <Compile Include="ReactivePropertyTest.cs" />
     <Compile Include="ContinueWithTest.cs" />
@@ -112,7 +114,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Dlls\UniRx.Library\UniRx.Library.csproj">
       <Project>{21c57e17-d4b8-4da4-a6a2-07d8b2e5b3bd}</Project>

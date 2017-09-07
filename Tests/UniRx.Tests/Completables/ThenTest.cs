@@ -1,30 +1,13 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
-using UniRx.Completables;
 
-namespace UniRx.Tests.Operators
+namespace UniRx.Completables.Tests
 {
     [TestClass]
     [TestFixture]
     public class ThenTest
     {
-        private class Observer : ICompletableObserver
-        {
-            public bool IsCompleted { get; private set; }
-            public Exception Error { get; private set; }
-            
-            public void OnCompleted()
-            {
-                IsCompleted = true;
-            }
-
-            public void OnError(Exception error)
-            {
-                Error = error;
-            }
-        }
-        
         [TestMethod]
         [Test]
         public void Then_OnCompleted()
@@ -37,7 +20,7 @@ namespace UniRx.Tests.Operators
             subject1.HasObservers.IsFalse();
             subject2.HasObservers.IsFalse();
 
-            var observer = new Observer();
+            var observer = new StubCompletableObserver();
             completable.Subscribe(observer);
                 
             subject1.HasObservers.IsTrue();
@@ -69,7 +52,7 @@ namespace UniRx.Tests.Operators
             subject1.HasObservers.IsFalse();
             subject2.HasObservers.IsFalse();
 
-            var observer = new Observer();
+            var observer = new StubCompletableObserver();
             completable.Subscribe(observer);
                 
             subject1.HasObservers.IsTrue();
