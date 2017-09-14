@@ -12,39 +12,39 @@ namespace UniRx.Completables
             return new Subscribe(onCompleted, onError);
         }
 
-        internal static ICompletableObserver CreateSubscribeWithStateObserver<TState>(TState state, Action<TState> onCompleted, Action<Exception, TState> onError)
+        internal static ICompletableObserver CreateSubscribeWithStateObserver<TState>(TState state, Action<Exception, TState> onError, Action<TState> onCompleted)
         {
             return new Subscribe<TState>(state, onCompleted, onError);
         }
 
-        internal static ICompletableObserver CreateSubscribeWithState2Observer<TState1, TState2>(TState1 state1, TState2 state2, Action<TState1, TState2> onCompleted, Action<Exception, TState1, TState2> onError)
+        internal static ICompletableObserver CreateSubscribeWithState2Observer<TState1, TState2>(TState1 state1, TState2 state2, Action<Exception, TState1, TState2> onError, Action<TState1, TState2> onCompleted)
         {
             return new Subscribe<TState1, TState2>(state1, state2, onCompleted, onError);
         }
 
-        internal static ICompletableObserver CreateSubscribeWithState3Observer<TState1, TState2, TState3>(TState1 state1, TState2 state2, TState3 state3, Action<TState1, TState2, TState3> onCompleted, Action<Exception, TState1, TState2, TState3> onError)
+        internal static ICompletableObserver CreateSubscribeWithState3Observer<TState1, TState2, TState3>(TState1 state1, TState2 state2, TState3 state3, Action<Exception, TState1, TState2, TState3> onError, Action<TState1, TState2, TState3> onCompleted)
         {
             return new Subscribe<TState1, TState2, TState3>(state1, state2, state3, onCompleted, onError);
         }
 
         public static ICompletableObserver Create()
         {
-            return Create(Stubs.Nop, Stubs.Throw);
+            return Create(Stubs.Throw, Stubs.Nop);
         }
 
         public static ICompletableObserver Create(Action<Exception> onError)
         {
-            return Create(Stubs.Nop, onError);
+            return Create(onError, Stubs.Nop);
         }
 
         public static ICompletableObserver Create(Action onCompleted)
         {
-            return Create(onCompleted, Stubs.Throw);
+            return Create(Stubs.Throw, onCompleted);
         }
 
-        public static ICompletableObserver Create(Action onCompleted, Action<Exception> onError)
+        public static ICompletableObserver Create(Action<Exception> onError, Action onCompleted)
         {
-            return new AnonymousCompletableObserver(onCompleted, onError);
+            return new AnonymousCompletableObserver(onError, onCompleted);
         }
 
         public static ICompletableObserver CreateAutoDetachObserver(ICompletableObserver observer, IDisposable disposable)
@@ -59,7 +59,7 @@ namespace UniRx.Completables
 
             private int isStopped;
 
-            public AnonymousCompletableObserver(Action onCompleted, Action<Exception> onError)
+            public AnonymousCompletableObserver(Action<Exception> onError, Action onCompleted)
             {
                 this.onCompleted = onCompleted;
                 this.onError = onError;
@@ -247,7 +247,7 @@ namespace UniRx.Completables
         }
     }
 
-    public static class CompletableObservableExtensions
+    public static class CompletableExtensions
     {
         public static IDisposable Subscribe(this ICompletable source)
         {
@@ -259,7 +259,7 @@ namespace UniRx.Completables
             return source.Subscribe(CompletableObserver.CreateSubscribeObserver(onCompleted, Stubs.Throw));
         }
 
-        public static IDisposable Subscribe(this ICompletable source, Action onCompleted, Action<Exception> onError)
+        public static IDisposable Subscribe(this ICompletable source, Action<Exception> onError, Action onCompleted)
         {
             return source.Subscribe(CompletableObserver.CreateSubscribeObserver(onCompleted, onError));
         }
@@ -271,42 +271,42 @@ namespace UniRx.Completables
 
         public static IDisposable SubscribeWithState<TState>(this ICompletable source, TState state, Action<TState> onCompleted)
         {
-            return source.Subscribe(CompletableObserver.CreateSubscribeWithStateObserver(state, onCompleted, Stubs<TState>.Throw));
+            return source.Subscribe(CompletableObserver.CreateSubscribeWithStateObserver(state, Stubs<TState>.Throw, onCompleted));
         }
 
         public static IDisposable SubscribeWithState<TState>(this ICompletable source, TState state, Action<Exception, TState> onError)
         {
-            return source.Subscribe(CompletableObserver.CreateSubscribeWithStateObserver(state, Stubs<TState>.Ignore, onError));
+            return source.Subscribe(CompletableObserver.CreateSubscribeWithStateObserver(state, onError, Stubs<TState>.Ignore));
         }
 
-        public static IDisposable SubscribeWithState<TState>(this ICompletable source, TState state, Action<TState> onCompleted, Action<Exception, TState> onError)
+        public static IDisposable SubscribeWithState<TState>(this ICompletable source, TState state, Action<Exception, TState> onError, Action<TState> onCompleted)
         {
-            return source.Subscribe(CompletableObserver.CreateSubscribeWithStateObserver(state, onCompleted, onError));
+            return source.Subscribe(CompletableObserver.CreateSubscribeWithStateObserver(state, onError, onCompleted));
         }
 
         public static IDisposable SubscribeWithState2<TState1, TState2>(this ICompletable source, TState1 state1, TState2 state2, Action<TState1, TState2> onCompleted)
         {
-            return source.Subscribe(CompletableObserver.CreateSubscribeWithState2Observer(state1, state2, onCompleted, Stubs<TState1, TState2>.Throw));
+            return source.Subscribe(CompletableObserver.CreateSubscribeWithState2Observer(state1, state2, Stubs<TState1, TState2>.Throw, onCompleted));
         }
 
         public static IDisposable SubscribeWithState2<TState1, TState2>(this ICompletable source, TState1 state1, TState2 state2, Action<Exception, TState1, TState2> onError)
         {
-            return source.Subscribe(CompletableObserver.CreateSubscribeWithState2Observer(state1, state2, Stubs<TState1, TState2>.Ignore, onError));
+            return source.Subscribe(CompletableObserver.CreateSubscribeWithState2Observer(state1, state2, onError, Stubs<TState1, TState2>.Ignore));
         }
 
-        public static IDisposable SubscribeWithState2<TState1, TState2>(this ICompletable source, TState1 state1, TState2 state2, Action<TState1, TState2> onCompleted, Action<Exception, TState1, TState2> onError)
+        public static IDisposable SubscribeWithState2<TState1, TState2>(this ICompletable source, TState1 state1, TState2 state2, Action<Exception, TState1, TState2> onError, Action<TState1, TState2> onCompleted)
         {
-            return source.Subscribe(CompletableObserver.CreateSubscribeWithState2Observer(state1, state2, onCompleted, onError));
+            return source.Subscribe(CompletableObserver.CreateSubscribeWithState2Observer(state1, state2, onError, onCompleted));
         }
 
         public static IDisposable SubscribeWithState3<TState1, TState2, TState3>(this ICompletable source, TState1 state1, TState2 state2, TState3 state3, Action<TState1, TState2, TState3> onCompleted)
         {
-            return source.Subscribe(CompletableObserver.CreateSubscribeWithState3Observer(state1, state2, state3, onCompleted, Stubs<TState1, TState2, TState3>.Throw));
+            return source.Subscribe(CompletableObserver.CreateSubscribeWithState3Observer(state1, state2, state3, Stubs<TState1, TState2, TState3>.Throw, onCompleted));
         }
 
-        public static IDisposable SubscribeWithState3<TState1, TState2, TState3>(this ICompletable source, TState1 state1, TState2 state2, TState3 state3, Action<TState1, TState2, TState3> onCompleted, Action<Exception, TState1, TState2, TState3> onError)
+        public static IDisposable SubscribeWithState3<TState1, TState2, TState3>(this ICompletable source, TState1 state1, TState2 state2, TState3 state3, Action<Exception, TState1, TState2, TState3> onError, Action<TState1, TState2, TState3> onCompleted)
         {
-            return source.Subscribe(CompletableObserver.CreateSubscribeWithState3Observer(state1, state2, state3, onCompleted, onError));
+            return source.Subscribe(CompletableObserver.CreateSubscribeWithState3Observer(state1, state2, state3, onError, onCompleted));
         }
     }
 

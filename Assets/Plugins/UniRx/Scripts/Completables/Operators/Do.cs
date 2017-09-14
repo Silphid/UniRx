@@ -35,12 +35,6 @@ namespace UniRx.Completables.Operators
                 return parent.source.Subscribe(this);
             }
 
-            public override void OnCompleted()
-            {
-                try { observer.OnCompleted(); }
-                finally { Dispose(); }
-            }
-
             public override void OnError(Exception error)
             {
                 try
@@ -56,6 +50,12 @@ namespace UniRx.Completables.Operators
 
 
                 try { observer.OnError(error); }
+                finally { Dispose(); }
+            }
+
+            public override void OnCompleted()
+            {
+                try { observer.OnCompleted(); }
                 finally { Dispose(); }
             }
         }
@@ -92,6 +92,12 @@ namespace UniRx.Completables.Operators
                 return parent.source.Subscribe(this);
             }
 
+            public override void OnError(Exception error)
+            {
+                try { observer.OnError(error); }
+                finally { Dispose(); }
+            }
+
             public override void OnCompleted()
             {
                 try
@@ -105,12 +111,6 @@ namespace UniRx.Completables.Operators
                     return;
                 }
                 try { observer.OnCompleted(); } finally { Dispose(); }
-            }
-
-            public override void OnError(Exception error)
-            {
-                try { observer.OnError(error); }
-                finally { Dispose(); }
             }
         }
     }
@@ -146,21 +146,6 @@ namespace UniRx.Completables.Operators
                 return parent.source.Subscribe(this);
             }
 
-            public override void OnCompleted()
-            {
-                try
-                {
-                    parent.onTerminate();
-                }
-                catch (Exception ex)
-                {
-                    observer.OnError(ex);
-                    Dispose();
-                    return;
-                }
-                try { observer.OnCompleted(); } finally { Dispose(); }
-            }
-
             public override void OnError(Exception error)
             {
                 try
@@ -174,6 +159,21 @@ namespace UniRx.Completables.Operators
                     return;
                 }
                 try { observer.OnError(error); } finally { Dispose(); }
+            }
+
+            public override void OnCompleted()
+            {
+                try
+                {
+                    parent.onTerminate();
+                }
+                catch (Exception ex)
+                {
+                    observer.OnError(ex);
+                    Dispose();
+                    return;
+                }
+                try { observer.OnCompleted(); } finally { Dispose(); }
             }
         }
     }
@@ -220,14 +220,14 @@ namespace UniRx.Completables.Operators
                 return parent.source.Subscribe(this);
             }
 
-            public override void OnCompleted()
-            {
-                try { observer.OnCompleted(); } finally { Dispose(); }
-            }
-
             public override void OnError(Exception error)
             {
                 try { observer.OnError(error); } finally { Dispose(); }
+            }
+
+            public override void OnCompleted()
+            {
+                try { observer.OnCompleted(); } finally { Dispose(); }
             }
         }
     }
@@ -271,16 +271,16 @@ namespace UniRx.Completables.Operators
                 }));
             }
 
-            public override void OnCompleted()
-            {
-                isCompletedCall = true;
-                try { observer.OnCompleted(); } finally { Dispose(); }
-            }
-
             public override void OnError(Exception error)
             {
                 isCompletedCall = true;
                 try { observer.OnError(error); } finally { Dispose(); }
+            }
+
+            public override void OnCompleted()
+            {
+                isCompletedCall = true;
+                try { observer.OnCompleted(); } finally { Dispose(); }
             }
         }
     }

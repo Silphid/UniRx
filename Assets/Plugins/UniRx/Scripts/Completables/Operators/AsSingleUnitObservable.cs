@@ -27,17 +27,17 @@ namespace UniRx.Completables.Operators
                 this.parent = parent;
             }
 
+            public override void OnError(Exception error)
+            {
+                try { observer.OnError(error); }
+                finally { Dispose(); }
+            }
+
             public override void OnCompleted()
             {
                 observer.OnNext(Unit.Default);
                 
                 try { observer.OnCompleted(); }
-                finally { Dispose(); }
-            }
-
-            public override void OnError(Exception error)
-            {
-                try { observer.OnError(error); }
                 finally { Dispose(); }
             }
 

@@ -13,19 +13,19 @@ namespace UniRx.Completables.Operators
             this.gate = gate;
         }
 
-        public void OnCompleted()
-        {
-            lock (gate)
-            {
-                observer.OnCompleted();
-            }
-        }
-
         public void OnError(Exception error)
         {
             lock (gate)
             {
                 observer.OnError(error);
+            }
+        }
+
+        public void OnCompleted()
+        {
+            lock (gate)
+            {
+                observer.OnCompleted();
             }
         }
     }

@@ -66,9 +66,9 @@ namespace UniRx.Completables.Operators
             this.cancel = cancel;
         }
 
-        public abstract void OnCompleted();
-        
         public abstract void OnError(Exception error);
+
+        public abstract void OnCompleted();
 
         public void Dispose()
         {
@@ -85,15 +85,15 @@ namespace UniRx.Completables.Operators
         {
         }
 
-        public override void OnCompleted()
-        {
-            try { observer.OnCompleted(); }
-            finally { Dispose(); }
-        }
-
         public override void OnError(Exception error)
         {
             try { observer.OnError(error); }
+            finally { Dispose(); }
+        }
+
+        public override void OnCompleted()
+        {
+            try { observer.OnCompleted(); }
             finally { Dispose(); }
         }
     }
@@ -104,15 +104,15 @@ namespace UniRx.Completables.Operators
         {
         }
 
-        public override void OnCompleted()
-        {
-            try { observer.OnCompleted(); }
-            finally { Dispose(); }
-        }
-
         public override void OnError(Exception error)
         {
             try { observer.OnError(error); }
+            finally { Dispose(); }
+        }
+
+        public override void OnCompleted()
+        {
+            try { observer.OnCompleted(); }
             finally { Dispose(); }
         }
     }

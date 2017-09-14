@@ -77,7 +77,7 @@ namespace UniRx.Completables.Tests
             var subject = new CompletableSubject();
             subject
                 .CatchIgnore<Exception>()
-                .Subscribe(() => onCompletedCalled = true, ex => Assert.Fail("Should not be called"));
+                .Subscribe(ex => Assert.Fail("Should not be called"), () => onCompletedCalled = true);
             
             subject.OnError(new Exception());
             onCompletedCalled.IsTrue();

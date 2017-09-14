@@ -113,15 +113,15 @@ namespace UniRx.Completables.Operators
                 }
             }
 
-            public override void OnCompleted()
-            {
-                nextSelf();
-            }
-
             public override void OnError(Exception error)
             {
                 try { observer.OnError(error); }
                 finally { Dispose(); }
+            }
+
+            public override void OnCompleted()
+            {
+                nextSelf();
             }
         }
     }
