@@ -76,6 +76,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Completables\ConcatTest.cs" />
+    <Compile Include="Completables\FinallyTest.cs" />
     <Compile Include="Completables\Helpers\StubCompletableObserver.cs" />
     <Compile Include="Completables\ThenTest.cs" />
     <Compile Include="Completables\TimeoutTest.cs" />

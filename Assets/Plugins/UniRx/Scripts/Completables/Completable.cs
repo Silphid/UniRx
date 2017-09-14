@@ -317,7 +317,7 @@ namespace UniRx.Completables
         
         #endregion
 
-        #region Error Handling (Catch, CatchIgnore)
+        #region Error Handling (Catch, CatchIgnore, Finally)
 
         /// <summary>Catches given exception and returns Completable provided by errorHandler Func.</summary>
         public static ICompletable Catch<TException>(this ICompletable source, Func<TException, ICompletable> errorHandler)
@@ -348,6 +348,15 @@ namespace UniRx.Completables
         public static IObservable<TSource> CatchIgnore<TSource>(this IObservable<TSource> source)
         {
             return source.Catch<TSource, Exception>(Stubs.CatchIgnore<TSource>);
+        }
+
+        /// <summary>
+        /// Ensures an action is always called whenever a completable completes successfully or with an error or
+        /// throws an exception during subscription (same behavior as UniRx IObservable<T>, but not standard .NET Rx).
+        /// </summary>
+        public static ICompletable Finally(this ICompletable source, Action finallyAction)
+        {
+            return new FinallyCompletable(source, finallyAction);
         }
 
         #endregion
