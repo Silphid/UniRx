@@ -8,20 +8,13 @@ namespace UniRx.Completables.Tests
     [TestFixture]
     public class FinallyTest
     {
-        private bool finallyCalled;
-        
-        [TestInitialize]
-        [SetUp]
-        public void SetUp()
-        {
-            finallyCalled = false;
-        }
-
         [TestMethod]
         [Test]
         public void OnComplete_CallsFinallyAndOnCompleted()
         {
+            bool finallyCalled = false;
             bool onCompletedCalled = false;
+            
             var subject = new CompletableSubject();
             subject
                 .Finally(() => finallyCalled = true)
@@ -36,8 +29,10 @@ namespace UniRx.Completables.Tests
         [Test]
         public void OnError_CallsFinallyAndOnError()
         {
+            bool finallyCalled = false;
             Exception receivedException = null;
             var emittedException = new Exception();
+            
             var subject = new CompletableSubject();
             subject
                 .Finally(() => finallyCalled = true)
@@ -52,6 +47,7 @@ namespace UniRx.Completables.Tests
         [Test]
         public void ExceptionDuringSubscribe_CallsFinallyAndRethrows()
         {
+            bool finallyCalled = false;
             Exception catchedException = null;
             var thrownException = new Exception();
             

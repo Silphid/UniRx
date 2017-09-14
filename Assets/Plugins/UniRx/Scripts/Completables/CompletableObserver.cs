@@ -308,17 +308,21 @@ namespace UniRx.Completables
         {
             return source.Subscribe(CompletableObserver.CreateSubscribeWithState3Observer(state1, state2, state3, onCompleted, onError));
         }
+    }
 
-        internal static class Stubs
-        {
-            public static readonly Action Nop = () => { };
-            public static readonly Action<Exception> Throw = ex => { throw ex; };
+    internal static class Stubs
+    {
+        public static readonly Action Nop = () => { };
+        public static readonly Action<Exception> Throw = ex => { throw ex; };
             
-            // Marker for CatchIgnore and Catch to avoid iOS AOT problem.
-            public static ICompletable CatchIgnore(Exception ex)
-            {
-                return Completable.Empty();
-            }
+        // Marker for CatchIgnore and Catch to avoid iOS AOT problem.
+        public static ICompletable CatchIgnore(Exception ex)
+        {
+            return Completable.Empty();
+        }
+            
+        public static void CatchIgnoreVoid(Exception ex)
+        {
         }
     }
 }

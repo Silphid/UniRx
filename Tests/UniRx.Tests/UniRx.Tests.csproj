@@ -75,6 +75,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Completables\CatchTest.cs" />
     <Compile Include="Completables\ConcatTest.cs" />
     <Compile Include="Completables\FinallyTest.cs" />
     <Compile Include="Completables\Helpers\StubCompletableObserver.cs" />

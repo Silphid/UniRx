@@ -50,7 +50,7 @@ namespace UniRx.Completables.Operators
                     ICompletable next;
                     try
                     {
-                        next = parent.errorHandler == CompletableObservableExtensions.Stubs.CatchIgnore
+                        next = parent.errorHandler == Stubs.CatchIgnore
                             ? Completable.Empty()
                             : parent.errorHandler(e);
                     }

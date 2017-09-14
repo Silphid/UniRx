@@ -332,27 +332,27 @@ namespace UniRx.Completables
             return new CatchCompletable(sources);
         }
 
-        /// <summary>Catches given exception and returns Observable.Empty.</summary>
-        public static IObservable<TSource> CatchIgnore<TSource, TException>(this IObservable<TSource> source, Action<TException> errorAction)
+        /// <summary>Catches given exception and returns Completable.Empty().</summary>
+        public static ICompletable CatchIgnore<TException>(this ICompletable source, Action<TException> errorAction)
             where TException : Exception
         {
-            var result = source.Catch((TException ex) =>
+            return source.Catch((TException ex) =>
             {
                 errorAction(ex);
-                return Observable.Empty<TSource>();
+                return Empty();
             });
-            return result;
         }
 
-        /// <summary>Catches any exception and returns Observable.Empty.</summary>
-        public static IObservable<TSource> CatchIgnore<TSource>(this IObservable<TSource> source)
+        /// <summary>Catches any exception and returns Completable.Empty().</summary>
+        public static ICompletable CatchIgnore<TException>(this ICompletable source)
+            where TException : Exception
         {
-            return source.Catch<TSource, Exception>(Stubs.CatchIgnore<TSource>);
+            return source.CatchIgnore<TException>(Stubs.CatchIgnoreVoid);
         }
 
         /// <summary>
         /// Ensures an action is always called whenever a completable completes successfully or with an error or
-        /// throws an exception during subscription (same behavior as UniRx IObservable<T>, but not standard .NET Rx).
+        /// throws an exception during subscription (same behavior as UniRx IObservable, but not standard .NET Rx).
         /// </summary>
         public static ICompletable Finally(this ICompletable source, Action finallyAction)
         {
