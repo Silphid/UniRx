@@ -4,7 +4,7 @@ namespace UniRx.Completables.Operators
 {
     // DoOnError, DoOnCompleted, DoOnTerminate, DoOnSubscribe, DoOnCancel
 
-    internal class DoOnErrorCompletable<T> : OperatorCompletableBase
+    internal class DoOnErrorCompletable : OperatorCompletableBase
     {
         private readonly ICompletable source;
         private readonly Action<Exception> onError;
@@ -23,9 +23,9 @@ namespace UniRx.Completables.Operators
 
         private class DoOnErrorObserver : OperatorCompletableObserverBase
         {
-            private readonly DoOnErrorCompletable<T> parent;
+            private readonly DoOnErrorCompletable parent;
 
-            public DoOnErrorObserver(DoOnErrorCompletable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
+            public DoOnErrorObserver(DoOnErrorCompletable parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
             {
                 this.parent = parent;
             }
@@ -61,7 +61,7 @@ namespace UniRx.Completables.Operators
         }
     }
 
-    internal class DoOnCompletedCompletable<T> : OperatorCompletableBase
+    internal class DoOnCompletedCompletable : OperatorCompletableBase
     {
         private readonly ICompletable source;
         public readonly Action onCompleted;
@@ -80,9 +80,9 @@ namespace UniRx.Completables.Operators
 
         private class DoOnCompleted : OperatorCompletableObserverBase
         {
-            private readonly DoOnCompletedCompletable<T> parent;
+            private readonly DoOnCompletedCompletable parent;
 
-            public DoOnCompleted(DoOnCompletedCompletable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
+            public DoOnCompleted(DoOnCompletedCompletable parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
             {
                 this.parent = parent;
             }
@@ -115,7 +115,7 @@ namespace UniRx.Completables.Operators
         }
     }
 
-    internal class DoOnTerminateCompletable<T> : OperatorCompletableBase
+    internal class DoOnTerminateCompletable : OperatorCompletableBase
     {
         private readonly ICompletable source;
         public readonly Action onTerminate;
@@ -134,9 +134,9 @@ namespace UniRx.Completables.Operators
 
         class DoOnTerminate : OperatorCompletableObserverBase
         {
-            private readonly DoOnTerminateCompletable<T> parent;
+            private readonly DoOnTerminateCompletable parent;
 
-            public DoOnTerminate(DoOnTerminateCompletable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
+            public DoOnTerminate(DoOnTerminateCompletable parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
             {
                 this.parent = parent;
             }
@@ -178,7 +178,7 @@ namespace UniRx.Completables.Operators
         }
     }
 
-    internal class DoOnSubscribeCompletable<T> : OperatorCompletableBase
+    internal class DoOnSubscribeCompletable : OperatorCompletableBase
     {
         private readonly ICompletable source;
         private readonly Action onSubscribe;
@@ -197,9 +197,9 @@ namespace UniRx.Completables.Operators
 
         private class DoOnSubscribe : OperatorCompletableObserverBase
         {
-            private readonly DoOnSubscribeCompletable<T> parent;
+            private readonly DoOnSubscribeCompletable parent;
 
-            public DoOnSubscribe(DoOnSubscribeCompletable<T> parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
+            public DoOnSubscribe(DoOnSubscribeCompletable parent, ICompletableObserver observer, IDisposable cancel) : base(observer, cancel)
             {
                 this.parent = parent;
             }
@@ -232,7 +232,7 @@ namespace UniRx.Completables.Operators
         }
     }
 
-    internal class DoOnCancelCompletable<T> : OperatorCompletableBase
+    internal class DoOnCancelCompletable : OperatorCompletableBase
     {
         private readonly ICompletable source;
         public readonly Action onCancel;
@@ -251,10 +251,10 @@ namespace UniRx.Completables.Operators
 
         private class DoOnCancel : OperatorCompletableObserverBase
         {
-            private readonly DoOnCancelCompletable<T> parent;
+            private readonly DoOnCancelCompletable parent;
             private bool isCompletedCall;
 
-            public DoOnCancel(DoOnCancelCompletable<T> parent, ICompletableObserver observer, IDisposable cancel)
+            public DoOnCancel(DoOnCancelCompletable parent, ICompletableObserver observer, IDisposable cancel)
                 : base(observer, cancel)
             {
                 this.parent = parent;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UniRx.Completables.Operators
 {
@@ -34,7 +35,7 @@ namespace UniRx.Completables.Operators
             private readonly object gate = new object();
 
             private bool isDisposed;
-            private IEnumerator<ICompletable> e;
+            private IEnumerator<ICompletable> enumerator;
             private SerialDisposable subscription;
             private Action nextSelf;
 
@@ -47,7 +48,7 @@ namespace UniRx.Completables.Operators
             public IDisposable Run()
             {
                 isDisposed = false;
-                e = parent.sources.GetEnumerator();
+                enumerator = parent.sources.GetEnumerator();
                 subscription = new SerialDisposable();
 
                 var schedule = Scheduler.DefaultSchedulers.TailRecursion.Schedule(RecursiveRun);
@@ -57,7 +58,7 @@ namespace UniRx.Completables.Operators
                     lock (gate)
                     {
                         isDisposed = true;
-                        e.Dispose();
+                        enumerator.Dispose();
                     }
                 }));
             }
@@ -75,21 +76,21 @@ namespace UniRx.Completables.Operators
 
                     try
                     {
-                        hasNext = e.MoveNext();
+                        hasNext = enumerator.MoveNext();
                         if (hasNext)
                         {
-                            current = e.Current;
+                            current = enumerator.Current;
                             if (current == null) throw new InvalidOperationException("sequence is null.");
                         }
                         else
                         {
-                            e.Dispose();
+                            enumerator.Dispose();
                         }
                     }
                     catch (Exception exception)
                     {
                         ex = exception;
-                        e.Dispose();
+                        enumerator.Dispose();
                     }
 
                     if (ex != null)

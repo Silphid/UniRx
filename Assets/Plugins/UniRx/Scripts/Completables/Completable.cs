@@ -65,7 +65,7 @@ namespace UniRx.Completables
 
         #endregion
 
-        #region Combination (Concat, Merge, Then, WhenAll)
+        #region Combination (Concat, Merge, Repeat, Then, WhenAll)
 
         public static ICompletable Concat(params ICompletable[] sources)
         {
@@ -124,6 +124,28 @@ namespace UniRx.Completables
         public static ICompletable Merge(this IObservable<ICompletable> sources)
         {
             return new MergeCompletable(sources, false);
+        }
+
+        public static ICompletable Repeat(this ICompletable source)
+        {
+            return RepeatInfinite(source).Concat();
+        }
+
+        public static ICompletable Repeat(this ICompletable source, int count)
+        {
+            return RepeatCount(source, count).Concat();
+        }
+
+        private static IEnumerable<ICompletable> RepeatInfinite(ICompletable source)
+        {
+            while (true)
+                yield return source;
+        }
+
+        private static IEnumerable<ICompletable> RepeatCount(ICompletable source, int count)
+        {
+            for (int i = 0; i < count; i++)
+                yield return source;
         }
 
         public static ICompletable Merge(this IObservable<ICompletable> sources, int maxConcurrent)
@@ -290,29 +312,29 @@ namespace UniRx.Completables
         
         #region DoOn... (Error, Completed, Terminate, Subscribe, Cancel)
 
-        public static ICompletable DoOnError<T>(this ICompletable source, Action<Exception> onError)
+        public static ICompletable DoOnError(this ICompletable source, Action<Exception> onError)
         {
-            return new DoOnErrorCompletable<T>(source, onError);
+            return new DoOnErrorCompletable(source, onError);
         }
 
-        public static ICompletable DoOnCompleted<T>(this ICompletable source, Action onCompleted)
+        public static ICompletable DoOnCompleted(this ICompletable source, Action onCompleted)
         {
-            return new DoOnCompletedCompletable<T>(source, onCompleted);
+            return new DoOnCompletedCompletable(source, onCompleted);
         }
 
-        public static ICompletable DoOnTerminate<T>(this ICompletable source, Action onTerminate)
+        public static ICompletable DoOnTerminate(this ICompletable source, Action onTerminate)
         {
-            return new DoOnTerminateCompletable<T>(source, onTerminate);
+            return new DoOnTerminateCompletable(source, onTerminate);
         }
 
-        public static ICompletable DoOnSubscribe<T>(this ICompletable source, Action onSubscribe)
+        public static ICompletable DoOnSubscribe(this ICompletable source, Action onSubscribe)
         {
-            return new DoOnSubscribeCompletable<T>(source, onSubscribe);
+            return new DoOnSubscribeCompletable(source, onSubscribe);
         }
 
-        public static ICompletable DoOnCancel<T>(this ICompletable source, Action onCancel)
+        public static ICompletable DoOnCancel(this ICompletable source, Action onCancel)
         {
-            return new DoOnCancelCompletable<T>(source, onCancel);
+            return new DoOnCancelCompletable(source, onCancel);
         }
         
         #endregion

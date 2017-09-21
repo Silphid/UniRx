@@ -79,6 +79,7 @@
     <Compile Include="Completables\ConcatTest.cs" />
     <Compile Include="Completables\FinallyTest.cs" />
     <Compile Include="Completables\Helpers\StubCompletableObserver.cs" />
+    <Compile Include="Completables\RepeatTest.cs" />
     <Compile Include="Completables\ThenTest.cs" />
     <Compile Include="Completables\TimeoutTest.cs" />
     <Compile Include="Completables\TimerTest.cs" />
