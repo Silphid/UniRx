@@ -236,6 +236,8 @@ namespace UniRx.Completables
             }
         }
 
+        #region Synchronize
+
         public static ICompletableObserver Synchronize(this ICompletableObserver observer)
         {
             return new SynchronizedCompletableObserver(observer, new object());
@@ -245,6 +247,8 @@ namespace UniRx.Completables
         {
             return new SynchronizedCompletableObserver(observer, gate);
         }
+
+        #endregion
     }
 
     public static class CompletableExtensions

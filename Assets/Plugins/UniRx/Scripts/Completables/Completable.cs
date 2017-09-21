@@ -40,6 +40,20 @@ namespace UniRx.Completables
         }
 
         #endregion
+
+        #region Concurrency (Synchronize)
+
+        public static ICompletable Synchronize(this ICompletable source)
+        {
+            return new SynchronizeCompletable(source, new object());
+        }
+
+        public static ICompletable Synchronize(this ICompletable source, object gate)
+        {
+            return new SynchronizeCompletable(source, gate);
+        }
+
+        #endregion
         
         #region Conversion (AsObservable, AsEmptyUnitObservable, AsCompletable) 
 
@@ -140,6 +154,8 @@ namespace UniRx.Completables
         {
             while (true)
                 yield return source;
+            
+            // ReSharper disable once IteratorNeverReturns
         }
 
         private static IEnumerable<ICompletable> RepeatCount(ICompletable source, int count)
