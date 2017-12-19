@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,6 +48,93 @@
   <ItemGroup>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Asynchronous\WebRequestExtensions.cs">
       <Link>Asynchronous\WebRequestExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Completable.cs">
+      <Link>Completables/Completable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\CompletableObserver.cs">
+      <Link>Completables/CompletableObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Amb.cs">
+      <Link>Completables/Operators/Amb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\AsCompletable.cs">
+      <Link>Completables/Operators/AsCompletable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\AsObservable.cs">
+      <Link>Completables/Operators/AsObservable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\AsSingleUnitObservable.cs">
+      <Link>Completables/Operators/AsSingleUnitObservable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Catch.cs">
+      <Link>Completables/Operators/Catch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Concat.cs">
+      <Link>Completables/Operators/Concat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Create.cs">
+      <Link>Completables/Operators/Create.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Defer.cs">
+      <Link>Completables/Operators/Defer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Do.cs">
+      <Link>Completables/Operators/Do.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Empty.cs">
+      <Link>Completables/Operators/Empty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Finally.cs">
+      <Link>Completables/Operators/Finally.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\FromEvent.cs">
+      <Link>Completables/Operators/FromEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Merge.cs">
+      <Link>Completables/Operators/Merge.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Never.cs">
+      <Link>Completables/Operators/Never.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\ObserveOn.cs">
+      <Link>Completables/Operators/ObserveOn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\OperatorCompletableBase.cs">
+      <Link>Completables/Operators/OperatorCompletableBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\OperatorCompletableObserverBase.cs">
+      <Link>Completables/Operators/OperatorCompletableObserverBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\SubscribeOn.cs">
+      <Link>Completables/Operators/SubscribeOn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Switch.cs">
+      <Link>Completables/Operators/Switch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Synchronize.cs">
+      <Link>Completables/Operators/Synchronize.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\SynchronizedCompletableObserver.cs">
+      <Link>Completables/Operators/SynchronizedCompletableObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\TakeUntil.cs">
+      <Link>Completables/Operators/TakeUntil.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Throw.cs">
+      <Link>Completables/Operators/Throw.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Timeout.cs">
+      <Link>Completables/Operators/Timeout.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Timer.cs">
+      <Link>Completables/Operators/Timer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Wait.cs">
+      <Link>Completables/Operators/Wait.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\WhenAll.cs">
+      <Link>Completables/Operators/WhenAll.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Disposables\BooleanDisposable.cs">
       <Link>Disposables\BooleanDisposable.cs</Link>
@@ -423,8 +511,14 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Schedulers\Scheduler.cs">
       <Link>Schedulers\Scheduler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Schedulers\TestScheduler.cs">
+      <Link>Schedulers\TestScheduler.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Schedulers\ThreadPoolScheduler.cs">
       <Link>Schedulers\ThreadPoolScheduler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Schedulers\VirtualTimeScheduler.cs">
+      <Link>Schedulers\VirtualTimeScheduler.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Subjects\AsyncSubject.cs">
       <Link>Subjects\AsyncSubject.cs</Link>
@@ -486,9 +580,26 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\UnityEngineBridge\ReactiveProperty.cs">
       <Link>UnityEngineBridge\ReactiveProperty.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\InternalUtil\ListCompletableObserver.cs">
+      <Link>Completables\InternalUtils\ListCompletableObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Subjects\ISubject.cs">
+      <Link>Completables\Subjects\ISubject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Subjects\Subject.cs">
+      <Link>Completables\Subjects\Subject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\System\ICompletable.cs">
+      <Link>Completables\System\ICompletable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\System\ICompletableObserver.cs">
+      <Link>Completables\System\ICompletableObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\System\IOptimizedObservable.cs">
+      <Link>Completables\System\IOptimizedObservable.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
