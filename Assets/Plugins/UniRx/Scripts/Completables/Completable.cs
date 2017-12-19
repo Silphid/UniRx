@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UniRx.Completables.Operators;
 
-namespace UniRx.Completables
+namespace UniRx
 {
     public static class Completable
     {
@@ -41,7 +41,7 @@ namespace UniRx.Completables
 
         #endregion
 
-        #region Concurrency (Synchronize)
+        #region Concurrency (Synchronize, ObserveOn)
 
         public static ICompletable Synchronize(this ICompletable source)
         {
@@ -51,6 +51,11 @@ namespace UniRx.Completables
         public static ICompletable Synchronize(this ICompletable source, object gate)
         {
             return new SynchronizeCompletable(source, gate);
+        }
+
+        public static ICompletable ObserveOn(this ICompletable source, IScheduler scheduler)
+        {
+            return new ObserveOnCompletable(source, scheduler);
         }
 
         #endregion
@@ -79,7 +84,7 @@ namespace UniRx.Completables
 
         #endregion
 
-        #region Combination (Concat, Merge, Repeat, Then, WhenAll)
+        #region Combination (Concat, Merge, Repeat, Then, ThenReturn, Until, WhenAll)
 
         public static ICompletable Concat(params ICompletable[] sources)
         {
@@ -201,6 +206,9 @@ namespace UniRx.Completables
 
             return first.AsObservable<T>().Concat(second);
         }
+
+        public static IObservable<T> ThenReturn<T>(this ICompletable first, T value) =>
+            first.Then(Observable.Return(value));
         
         public static ICompletable Then<T>(this IObservable<T> first, params ICompletable[] seconds)
         {
@@ -210,6 +218,22 @@ namespace UniRx.Completables
             return Concat(Combine(first.AsCompletable(), seconds));
         }
         
+        public static ICompletable Until(this ICompletable source, ICompletable other)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (other == null) throw new ArgumentNullException("other");
+
+            return new UntilCompletable(source, other);
+        }
+        
+        public static ICompletable Until<T>(this ICompletable source, IObservable<T> other)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (other == null) throw new ArgumentNullException("other");
+
+            return new UntilCompletable(source, other.FirstOrDefault().AsCompletable());
+        }
+
         /// <summary>
         /// <para>Specialized for single async operations like Task.WhenAll, Zip.Take(1).</para>
         /// <para>If sequence is empty, return T[0] array.</para>
@@ -385,7 +409,7 @@ namespace UniRx.Completables
         public static ICompletable CatchIgnore<TException>(this ICompletable source)
             where TException : Exception
         {
-            return source.CatchIgnore<TException>(Stubs.CatchIgnoreVoid);
+            return source.CatchIgnore<TException>(Completables.Stubs.CatchIgnoreVoid);
         }
 
         /// <summary>

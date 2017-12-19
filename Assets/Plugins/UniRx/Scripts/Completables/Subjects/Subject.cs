@@ -1,8 +1,9 @@
 ﻿using System;
+using UniRx.Completables;
 using UniRx.Completables.InternalUtil;
 using UniRx.InternalUtil;
 
-namespace UniRx.Completables
+namespace UniRx
 {
     public sealed class CompletableSubject : ICompletableSubject, IDisposable, IOptimizedCompletable
     {

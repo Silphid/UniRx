@@ -1,4 +1,4 @@
-﻿namespace UniRx.Completables
+﻿namespace UniRx
 {
     public interface IOptimizedCompletable : ICompletable
     {
