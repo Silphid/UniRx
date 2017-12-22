@@ -206,17 +206,18 @@ namespace UniRx
 
             return first.AsObservable<T>().Concat(second);
         }
+        
+        public static ICompletable Then<T>(this IObservable<T> first, Func<T, ICompletable> selector)
+        {
+            if (first == null) throw new ArgumentNullException("first");
+            if (selector == null) throw new ArgumentNullException("selector");
+
+            // TODO: Implement custom operator to handle this case to avoid multiple conversions
+            return first.ContinueWith(x => selector(x).AsEmptyUnitObservable()).AsCompletable();
+        }
 
         public static IObservable<T> ThenReturn<T>(this ICompletable first, T value) =>
             first.Then(Observable.Return(value));
-        
-        public static ICompletable Then<T>(this IObservable<T> first, params ICompletable[] seconds)
-        {
-            if (first == null) throw new ArgumentNullException("first");
-            if (seconds == null) throw new ArgumentNullException("seconds");
-
-            return Concat(Combine(first.AsCompletable(), seconds));
-        }
         
         public static ICompletable Until(this ICompletable source, ICompletable other)
         {
