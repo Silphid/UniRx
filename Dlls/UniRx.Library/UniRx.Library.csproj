@@ -118,8 +118,11 @@
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\SynchronizedCompletableObserver.cs">
       <Link>Completables/Operators/SynchronizedCompletableObserver.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\TakeUntil.cs">
-      <Link>Completables/Operators/TakeUntil.cs</Link>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Until.cs">
+      <Link>Completables/Operators/Until.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Then.cs">
+      <Link>Completables/Operators/Then.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Plugins\UniRx\Scripts\Completables\Operators\Throw.cs">
       <Link>Completables/Operators/Throw.cs</Link>

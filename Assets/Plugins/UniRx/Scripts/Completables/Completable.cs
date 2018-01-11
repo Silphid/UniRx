@@ -212,8 +212,7 @@ namespace UniRx
             if (first == null) throw new ArgumentNullException("first");
             if (selector == null) throw new ArgumentNullException("selector");
 
-            // TODO: Implement custom operator to handle this case to avoid multiple conversions
-            return first.ContinueWith(x => selector(x).AsEmptyUnitObservable()).AsCompletable();
+            return new ThenCompletable<T>(first, selector);
         }
 
         public static IObservable<T> ThenReturn<T>(this ICompletable first, T value) =>
